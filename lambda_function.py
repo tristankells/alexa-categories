@@ -6,13 +6,33 @@ from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_model import Response
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_core.dispatch_components import AbstractExceptionHandler
+from ask_sdk_core.dispatch_components import AbstractRequestInterceptor
+from ask_sdk_core.dispatch_components import AbstractResponseInterceptor
 
 # Custom skill code
 from Translator import Translator
 
 SKILL_TITLE = 'Categories'
-
 sb = SkillBuilder()
+categories = None
+
+
+class LoggingRequestInterceptor(AbstractRequestInterceptor):
+    """
+    Request interceptors are invoked immediately before execution of the request handler for an incoming request.
+    """
+
+    def process(self, handler_input):
+        print("Request received: {}".format(handler_input.request_envelope.request))
+
+
+class SetupRequestInterceptor(AbstractRequestInterceptor):
+    """
+    Request interceptors are invoked immediately before execution of the request handler for an incoming request.
+    """
+
+    def process(self, handler_input):
+        print("Request received: {}".format(handler_input.request_envelope.request))
 
 
 class LaunchRequestHandler(AbstractRequestHandler):
@@ -105,11 +125,25 @@ class AllExceptionHandler(AbstractExceptionHandler):
         return handler_input.response_builder.response
 
 
+class LoggingResponseInterceptor(AbstractResponseInterceptor):
+    """
+    Response interceptors are invoked immediately after execution of the request handler for an incoming request.
+    """
+
+    def process(self, handler_input, response):
+        print("Response generated: {}".format(response))
+
+
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(HelloWorldIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelAndStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
+
+sb.add_global_request_interceptor(LoggingRequestInterceptor())
+sb.add_global_request_interceptor(SetupRequestInterceptor())
+
+sb.add_global_response_interceptor(LoggingResponseInterceptor())
 
 sb.add_exception_handler(AllExceptionHandler())
 
