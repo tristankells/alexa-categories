@@ -10,18 +10,17 @@ from ask_sdk_core.dispatch_components import AbstractRequestInterceptor
 from ask_sdk_core.dispatch_components import AbstractResponseInterceptor
 
 # Custom skill code
-from Translator import Translator
+from Categories import Categories
 
 SKILL_TITLE = 'Categories'
 sb = SkillBuilder()
-categories = None
+categories: Categories
 
 
 class LoggingRequestInterceptor(AbstractRequestInterceptor):
     """
     Request interceptors are invoked immediately before execution of the request handler for an incoming request.
     """
-
     def process(self, handler_input):
         print("Request received: {}".format(handler_input.request_envelope.request))
 
@@ -30,9 +29,14 @@ class SetupRequestInterceptor(AbstractRequestInterceptor):
     """
     Request interceptors are invoked immediately before execution of the request handler for an incoming request.
     """
-
     def process(self, handler_input):
-        print("Request received: {}".format(handler_input.request_envelope.request))
+        session_variables = handler_input.attributes_manager.persistent_attributes
+
+        if not session_variables:
+            session_variables = Categories.get_initial_dict()
+
+        global categories
+        categories = Categories(session_variables)
 
 
 class LaunchRequestHandler(AbstractRequestHandler):
@@ -42,30 +46,11 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speech_text = Translator.launch
+        categories.launch()
 
-        handler_input.response_builder.speak(speech_text).set_card(
-            SimpleCard(SKILL_TITLE, speech_text)).set_should_end_session(
+        handler_input.response_builder.speak(categories.speech_text).set_card(
+            SimpleCard(SKILL_TITLE, categories.speech_text)).set_should_end_session(
             False)
-        return handler_input.response_builder.response
-
-
-class HelloWorldIntentHandler(AbstractRequestHandler):
-    """
-
-    """
-
-    def can_handle(self, handler_input):
-        # type: (HandlerInput) -> bool
-        return is_intent_name("HelloWorldIntent")(handler_input)
-
-    def handle(self, handler_input):
-        # type: (HandlerInput) -> Response
-        speech_text = "Hello World"
-
-        handler_input.response_builder.speak(speech_text).set_card(
-            SimpleCard("Hello World", speech_text)).set_should_end_session(
-            True)
         return handler_input.response_builder.response
 
 
@@ -129,13 +114,20 @@ class LoggingResponseInterceptor(AbstractResponseInterceptor):
     """
     Response interceptors are invoked immediately after execution of the request handler for an incoming request.
     """
-
     def process(self, handler_input, response):
         print("Response generated: {}".format(response))
 
 
+class SaveSessionAttributesResponseInterceptor(AbstractResponseInterceptor):
+    """
+    Response interceptors are invoked immediately after execution of the request handler for an incoming request.
+    """
+
+    def process(self, handler_input, response):
+        handler_input.attributes_manager.session_attributes = categories.get_initial_dict()
+
+
 sb.add_request_handler(LaunchRequestHandler())
-sb.add_request_handler(HelloWorldIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelAndStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
@@ -144,6 +136,7 @@ sb.add_global_request_interceptor(LoggingRequestInterceptor())
 sb.add_global_request_interceptor(SetupRequestInterceptor())
 
 sb.add_global_response_interceptor(LoggingResponseInterceptor())
+sb.add_global_response_interceptor(SaveSessionAttributesResponseInterceptor())
 
 sb.add_exception_handler(AllExceptionHandler())
 
