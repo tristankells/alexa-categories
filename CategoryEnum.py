@@ -2,4 +2,5 @@ from enum import Enum
 
 
 class CategoryEnum(Enum):
-    COUNTRIES = 'Countries'
+    NONE = 0
+    COUNTRIES = 1

@@ -1,14 +1,13 @@
 from Category import Category
-from CategoryEnum import CategoryEnum
 from Translator import Translator
 from Player import Player
-
+from CategoryEnum import CategoryEnum
 
 
 class Categories:
     def __init__(self, session_variables):
-        self.player = self.getPlayer(session_variables.player)
-        self.category = self.getCategory(session_variables.category)
+        self.player = Player(session_variables['player'])
+        self.category = self.get_category(session_variables['category'])
 
         self.speech_text = None
         self.re_prompt = None
@@ -16,13 +15,16 @@ class Categories:
     def launch(self):
         self.player.is_playing = True
         self.speech_text = Translator.launch.format(self.category.name)
-        raise NotImplementedError
 
     def make_a_guess(self):
         raise NotImplementedError
 
-    def get_category(self) -> Category:
-        raise NotImplementedError
+    @staticmethod
+    def get_category(category_variables) -> Category:
+        name = 'Country'
+        things = []
+
+        return Category(name, things)
 
     def get_player(self) -> Player:
         raise NotImplementedError
@@ -42,6 +44,6 @@ class Categories:
             },
             'category': {
                 'name': 'none',
-                'category'
+                'category': CategoryEnum.COUNTRIES
             }
         }
