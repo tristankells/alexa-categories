@@ -2,6 +2,7 @@ from Category import Category
 from CategoryEnum import CategoryEnum
 from Translator import Translator
 from Player import Player
+import csv
 
 
 
@@ -17,6 +18,15 @@ class Categories:
         self.player.is_playing = True
         self.speech_text = Translator.launch.format(self.category.name)
         raise NotImplementedError
+
+    @staticmethod
+    def get_countries():
+
+        with open('Data/Countries.csv', 'r') as f:
+            reader = csv.reader(f)
+            list_of_countries = list(reader)
+
+        return list_of_countries
 
     def make_a_guess(self):
         raise NotImplementedError
