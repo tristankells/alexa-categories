@@ -1,7 +1,7 @@
-from Category import Category
-from CategoryEnum import CategoryEnum
-from Translator import Translator
-from Player import Player
+from categories.Category import Category
+from categories.CategoryEnum import CategoryEnum
+from categories.Translator import Translator
+from categories.Player import Player
 import csv
 
 

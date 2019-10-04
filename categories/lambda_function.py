@@ -10,7 +10,7 @@ from ask_sdk_core.dispatch_components import AbstractRequestInterceptor
 from ask_sdk_core.dispatch_components import AbstractResponseInterceptor
 
 # Custom skill code
-from Categories import Categories
+from categories.Categories import Categories
 
 SKILL_TITLE = 'Categories'
 sb = SkillBuilder()
