@@ -1,6 +1,6 @@
 import unittest
-from categories.Translator import Translator
-from categories.Categories import Categories
+from Translator import Translator
+from Categories import Categories
 
 
 class TestDate(unittest.TestCase):
