@@ -30,7 +30,7 @@ class SetupRequestInterceptor(AbstractRequestInterceptor):
     Request interceptors are invoked immediately before execution of the request handler for an incoming request.
     """
     def process(self, handler_input):
-        session_variables = handler_input.attributes_manager.persistent_attributes
+        session_variables = handler_input.attributes_manager.session_attributes
 
         if not session_variables:
             session_variables = Categories.get_initial_dict()
@@ -140,4 +140,4 @@ sb.add_global_response_interceptor(SaveSessionAttributesResponseInterceptor())
 
 sb.add_exception_handler(AllExceptionHandler())
 
-handler = sb.lambda_handler()
+lambda_handler = sb.lambda_handler()
