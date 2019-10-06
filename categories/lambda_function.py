@@ -17,19 +17,13 @@ sb = SkillBuilder()
 categories: Categories
 
 
-class LoggingRequestInterceptor(AbstractRequestInterceptor):
+class SetupRequestInterceptor(AbstractRequestInterceptor):
     """
     Request interceptors are invoked immediately before execution of the request handler for an incoming request.
     """
     def process(self, handler_input):
         print("Request received: {}".format(handler_input.request_envelope.request))
 
-
-class SetupRequestInterceptor(AbstractRequestInterceptor):
-    """
-    Request interceptors are invoked immediately before execution of the request handler for an incoming request.
-    """
-    def process(self, handler_input):
         session_variables = handler_input.attributes_manager.session_attributes
 
         if not session_variables:
@@ -40,6 +34,21 @@ class SetupRequestInterceptor(AbstractRequestInterceptor):
 
 
 class LaunchRequestHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return is_request_type("LaunchRequest")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        categories.launch()
+
+        handler_input.response_builder.speak(categories.speech_text).set_card(
+            SimpleCard(SKILL_TITLE, categories.speech_text)).set_should_end_session(
+            False)
+        return handler_input.response_builder.response
+
+
+class CountryIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
         return is_request_type("LaunchRequest")(handler_input)
@@ -110,32 +119,25 @@ class AllExceptionHandler(AbstractExceptionHandler):
         return handler_input.response_builder.response
 
 
-class LoggingResponseInterceptor(AbstractResponseInterceptor):
-    """
-    Response interceptors are invoked immediately after execution of the request handler for an incoming request.
-    """
-    def process(self, handler_input, response):
-        print("Response generated: {}".format(response))
-
-
 class SaveSessionAttributesResponseInterceptor(AbstractResponseInterceptor):
     """
     Response interceptors are invoked immediately after execution of the request handler for an incoming request.
     """
 
     def process(self, handler_input, response):
+        print("Response generated: {}".format(response))
+
         handler_input.attributes_manager.session_attributes = categories.get_initial_dict()
 
 
 sb.add_request_handler(LaunchRequestHandler())
+sb.add_request_handler(CountryIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelAndStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
 
-sb.add_global_request_interceptor(LoggingRequestInterceptor())
 sb.add_global_request_interceptor(SetupRequestInterceptor())
 
-sb.add_global_response_interceptor(LoggingResponseInterceptor())
 sb.add_global_response_interceptor(SaveSessionAttributesResponseInterceptor())
 
 sb.add_exception_handler(AllExceptionHandler())
