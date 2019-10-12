@@ -12,6 +12,7 @@ from ask_sdk_core.dispatch_components import AbstractResponseInterceptor
 # Custom skill code
 from Categories import Categories
 from IntentSlots import IntentSlots
+from Intents import Intents
 
 SKILL_TITLE = 'Categories'
 sb = SkillBuilder()
@@ -52,11 +53,11 @@ class LaunchRequestHandler(AbstractRequestHandler):
 class CountryIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
-        return is_intent_name("CountryIntent")(handler_input)
+        return is_intent_name(Intents.COUNTRY)(handler_input)
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        guess = handler_input.request_envelope.request.intent.slots[IntentSlots.COUNTRY].value
+        guess = str(handler_input.request_envelope.request.intent.slots[IntentSlots.COUNTRY].value)
         categories.make_a_guess(guess)
 
         handler_input.response_builder.speak(categories.speech_text).set_card(
