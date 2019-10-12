@@ -7,7 +7,9 @@ install:
   - pip install -r requirements/requirements.txt
 script:
   - cd categories
+  - cd tests
   - python -m unittest discover -s tests
+  - cd ..
   - cd ..
 deploy:
   # deploy develop to the staging environment
