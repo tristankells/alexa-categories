@@ -52,7 +52,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 class CountryIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
-        return is_intent_name("AMAZON.HelpIntent")(handler_input)
+        return is_intent_name("CountryIntent")(handler_input)
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
