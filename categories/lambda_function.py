@@ -61,11 +61,16 @@ class CountryIntentHandler(AbstractRequestHandler):
 
         try:
             guess = str(handler_input.request_envelope.request.intent.slots[IntentSlots.COUNTRY].value)
+            print("successfully converted slot to guess ")
+
             categories.make_a_guess(guess)
+            print("successfully made a guess")
 
             handler_input.response_builder.speak(categories.speech_text).set_card(
                 SimpleCard(SKILL_TITLE, categories.speech_text)).set_should_end_session(
                 False)
+            print("successfully built a response")
+
             return handler_input.response_builder.response
 
         except Exception as e:
