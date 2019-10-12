@@ -123,7 +123,9 @@ class AllExceptionHandler(AbstractExceptionHandler):
     def handle(self, handler_input, exception):
         # type: (HandlerInput, Exception) -> Response
         # Log the exception in CloudWatch Logs
-        print(exception)
+        print('Should be an error between this and the next one')
+        print('EXCEPTION: ' + str(exception))
+        print('Should be an error between this and the previous one')
 
         speech = "Sorry, I didn't get it. Can you please say it again!!"
         handler_input.response_builder.speak(speech).ask(speech)
