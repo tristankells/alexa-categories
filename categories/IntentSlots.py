@@ -1,5 +1,5 @@
-import enum
+from enum import Enum
 
 
-class IntentSlots(enum):
-    COUNTRY = 'country'
+class IntentSlots(Enum):
+    COUNTRY = 'Country'
