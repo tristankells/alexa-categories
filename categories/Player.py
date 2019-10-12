@@ -1,7 +1,8 @@
 class Player:
 
-    def __init__(self, session_variables):
+    def __init__(self, is_playing):
         self.name = 'Player'
+        self.is_playing = is_playing
 
     def guess(self):
         raise NotImplementedError

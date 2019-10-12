@@ -1,11 +1,8 @@
 class Category:
     def __init__(self, name, things):
         self.name = name
-        self.things = things # An array of strings representing things that belong to a category
 
-    def is_guess_in_category(self, guess):
-        raise NotImplementedError
-        # if guess in in things
-        #   then return true
-        # If it is not
-        #   return false
+        self.things = [x.lower() for x in things]  # An list of strings representing things that belong to a category
+
+    def is_guess_in_category(self, guess: str):
+        return guess in self.things
