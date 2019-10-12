@@ -5,7 +5,7 @@ import csv
 def get_category_things(category_enum: CategoryEnum):
     category_name = category_enum.value
 
-    csv_path = '../Data/{}.csv'.format(category_name)
+    csv_path = 'Data/{}.csv'.format(category_name)
 
     list_of_things = _get_list_of_things_from_csv(csv_path)
     return list_of_things
