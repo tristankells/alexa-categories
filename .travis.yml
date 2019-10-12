@@ -8,7 +8,7 @@ install:
 script:
   - cd categories
   - cd tests
-  - python -m unittest discover -s tests
+  - python -m unittest discover -s
   - cd ..
   - cd ..
 deploy:
