@@ -57,6 +57,7 @@ class CountryIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
+        print(CountryIntentHandler.__name__ + " handled")
         guess = str(handler_input.request_envelope.request.intent.slots[IntentSlots.COUNTRY].value)
         categories.make_a_guess(guess)
 
