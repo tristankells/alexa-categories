@@ -59,7 +59,7 @@ class CountryIntentHandler(AbstractRequestHandler):
         # type: (HandlerInput) -> Response
         print(CountryIntentHandler.__name__ + " handled")
 
-        guess = str(handler_input.request_envelope.request.intent.slots[IntentSlots.COUNTRY].value)
+        guess = str(handler_input.request_envelope.request.intent.slots[IntentSlots.COUNTRY].value).lower()
         print("successfully converted slot to guess ")
 
         categories.make_a_guess(guess)
@@ -123,9 +123,7 @@ class AllExceptionHandler(AbstractExceptionHandler):
     def handle(self, handler_input, exception):
         # type: (HandlerInput, Exception) -> Response
         # Log the exception in CloudWatch Logs
-        print('Should be an error between this and the next one')
         print('EXCEPTION: ' + str(exception))
-        print('Should be an error between this and the previous one')
 
         speech = "Sorry, I didn't get it. Can you please say it again!!"
         handler_input.response_builder.speak(speech).ask(speech)
