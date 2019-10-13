@@ -8,7 +8,9 @@ from CategoryData import get_category_things
 class Categories:
     def __init__(self, session_variables):
         self.player = Player(session_variables['player']['is_playing'])
-        self.category = self.get_category(session_variables['category'])
+
+        category_enum = CategoryEnum(session_variables['category'])
+        self.category = self.get_category(category_enum)
 
         self.previous_guesses = session_variables['previous_guesses']
 
