@@ -1,18 +1,18 @@
 import unittest
-from Translator import Translator
+import Translator
 from Categories import Categories
 
 
 class IntegrationTests(unittest.TestCase):
     def test__round_of_countries(self):
-        session_variables = Categories.get_initial_dict()
+        session_variables = Categories.get_initial_session_attributes()
 
         categories = Categories(session_variables)
 
         categories.launch()
 
         # Confirm player gets the correct message
-        self.assertEqual(Translator.launch.format('Country'), categories.speech_text, '')
+        self.assertEqual(Translator.launch('Countries'), categories.speech_text, '')
         self.assertEqual(True, categories.player.is_playing, '')
 
         guess = "afghanistan"
@@ -36,7 +36,7 @@ class IntegrationTests(unittest.TestCase):
         categories.make_a_guess(guess)
 
         # Confirm player gets the correct message
-        self.assertEqual(Translator.bad_guess, categories.speech_text, '')
+        self.assertEqual(Translator.bad_guess_not_in_category(2), categories.speech_text, '')
         self.assertEqual(False, categories.player.is_playing, '')
 
 

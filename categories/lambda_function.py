@@ -29,7 +29,7 @@ class SetupRequestInterceptor(AbstractRequestInterceptor):
         session_variables = handler_input.attributes_manager.session_attributes
 
         if not session_variables:
-            session_variables = Categories.get_initial_dict()
+            session_variables = Categories.get_initial_session_attributes()
 
         global categories
         categories = Categories(session_variables)
@@ -138,7 +138,7 @@ class SaveSessionAttributesResponseInterceptor(AbstractResponseInterceptor):
     def process(self, handler_input, response):
         print("Response generated: {}".format(response))
 
-        handler_input.attributes_manager.session_attributes = categories.get_initial_dict()
+        handler_input.attributes_manager.session_attributes = categories.get_session_attributes()
 
 
 sb.add_request_handler(LaunchRequestHandler())
