@@ -1,6 +1,6 @@
 import unittest
-import Translator
-from Categories import Categories
+import translator
+from category.categories import Categories
 
 
 class IntegrationTests(unittest.TestCase):
@@ -12,7 +12,7 @@ class IntegrationTests(unittest.TestCase):
         categories.launch()
 
         # Confirm player gets the correct message
-        self.assertEqual(Translator.launch('Countries'), categories.speech_text, '')
+        self.assertEqual(translator.launch('Countries'), categories.speech_text, '')
         self.assertEqual(True, categories.player.is_playing, '')
 
         guess = "afghanistan"
@@ -20,7 +20,7 @@ class IntegrationTests(unittest.TestCase):
         categories.make_a_guess(guess)
 
         # Confirm player gets the correct message
-        self.assertEqual(Translator.good_guess, categories.speech_text, '')
+        self.assertEqual(translator.good_guess, categories.speech_text, '')
         self.assertEqual(True, categories.player.is_playing, '')
 
         guess = "new zealand"
@@ -28,7 +28,7 @@ class IntegrationTests(unittest.TestCase):
         categories.make_a_guess(guess)
 
         # Confirm player gets the correct message
-        self.assertEqual(Translator.good_guess, categories.speech_text, '')
+        self.assertEqual(translator.good_guess, categories.speech_text, '')
         self.assertEqual(True, categories.player.is_playing, '')
 
         guess = "europe"
@@ -36,7 +36,7 @@ class IntegrationTests(unittest.TestCase):
         categories.make_a_guess(guess)
 
         # Confirm player gets the correct message
-        self.assertEqual(Translator.bad_guess_not_in_category(2), categories.speech_text, '')
+        self.assertEqual(translator.bad_guess_not_in_category(2), categories.speech_text, '')
         self.assertEqual(False, categories.player.is_playing, '')
 
 

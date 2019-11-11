@@ -1,6 +1,6 @@
 import unittest
-from CategoryEnum import CategoryEnum
-from Category import Category
+from category.category_enum import CategoryEnum
+from category.category import Category
 
 
 class CategoryTests(unittest.TestCase):

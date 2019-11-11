@@ -10,9 +10,9 @@ from ask_sdk_core.dispatch_components import AbstractRequestInterceptor
 from ask_sdk_core.dispatch_components import AbstractResponseInterceptor
 
 # Custom skill code
-from Categories import Categories
-from IntentSlots import IntentSlots
-from Intents import Intents
+from category.categories import Categories
+from alexa.intent_slots import IntentSlots
+from alexa.intents import Intents
 
 SKILL_TITLE = 'Categories'
 sb = SkillBuilder()
@@ -71,7 +71,6 @@ class CountryIntentHandler(AbstractRequestHandler):
         print("successfully built a response")
 
         return handler_input.response_builder.response
-
 
 
 class HelpIntentHandler(AbstractRequestHandler):

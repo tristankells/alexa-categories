@@ -1,8 +1,8 @@
-from Category import Category
-from CategoryEnum import CategoryEnum
-import Translator
-from Player import Player
-from CategoryData import get_category_things
+from category.category import Category
+from category.category_enum import CategoryEnum
+import translator
+from category.player import Player
+from category.category_data import get_category_things
 
 
 class Categories:
@@ -23,7 +23,7 @@ class Categories:
         :return:
         """
         self._begin_round()
-        self.speech_text = Translator.launch(self.category.name)
+        self.speech_text = translator.launch(self.category.name)
 
     def make_a_guess(self, guess):
         """
@@ -33,14 +33,14 @@ class Categories:
         """
         # Bad guess - not unique in for the round
         if guess in self.previous_guesses:
-            self.speech_text = Translator.bad_guess_not_unique(len(self.previous_guesses))
+            self.speech_text = translator.bad_guess_not_unique(len(self.previous_guesses))
             self.player.is_playing = False
             self.previous_guesses = []
             return
 
         # Bad guess - not in the current category
         if not self.category.guess_in_category(guess):
-            self.speech_text = Translator.bad_guess_not_in_category(len(self.previous_guesses))
+            self.speech_text = translator.bad_guess_not_in_category(len(self.previous_guesses))
             self.player.is_playing = False
             self.previous_guesses = []
             return
@@ -49,12 +49,12 @@ class Categories:
         self.previous_guesses.append(guess)
 
     def _bad_guess(self):
-        self.speech_text = Translator.bad_guess_not_in_category(len(self.previous_guesses))
+        self.speech_text = translator.bad_guess_not_in_category(len(self.previous_guesses))
         self.player.is_playing = False
         self.previous_guesses = []
 
     def _good_guess(self):
-        self.speech_text = Translator.good_guess
+        self.speech_text = translator.good_guess
 
     def _begin_round(self):
         self.player.is_playing = True

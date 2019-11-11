@@ -1,4 +1,4 @@
-from CategoryEnum import CategoryEnum
+from category.category_enum import CategoryEnum
 
 
 class Category:

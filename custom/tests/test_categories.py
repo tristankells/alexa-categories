@@ -1,6 +1,6 @@
 import unittest
-import Translator
-from Categories import Categories
+import translator
+from category.categories import Categories
 
 
 class CategoriesTests(unittest.TestCase):
@@ -13,7 +13,7 @@ class CategoriesTests(unittest.TestCase):
         categories.launch()
 
         # Confirm player gets the correct message
-        self.assertEqual(Translator.launch('Countries'), categories.speech_text, '')
+        self.assertEqual(translator.launch('Countries'), categories.speech_text, '')
 
     def test__make_a_guess__good_guess(self):
         session_variables = Categories.get_initial_session_attributes()
@@ -26,7 +26,7 @@ class CategoriesTests(unittest.TestCase):
         # round continues
         self.assertEqual(True, categories.player.is_playing, 'Player should be still playing')
         # correct message plays
-        self.assertEqual(Translator.good_guess, categories.speech_text, 'Should get a good guess speech response')
+        self.assertEqual(translator.good_guess, categories.speech_text, 'Should get a good guess speech response')
         #
 
     def test__make_a_guess__not_in_category(self):
@@ -40,7 +40,7 @@ class CategoriesTests(unittest.TestCase):
         # round ends
         self.assertEqual(categories.player.is_playing, False, 'Player should no longer be playing')
         # correct error message plays
-        self.assertEqual(Translator.bad_guess_not_in_category(0), categories.speech_text, 'Should get a bad guess '
+        self.assertEqual(translator.bad_guess_not_in_category(0), categories.speech_text, 'Should get a bad guess '
                                                                                           'speech response')
 
     def test__make_a_guess__not_unique(self):
@@ -55,7 +55,7 @@ class CategoriesTests(unittest.TestCase):
         # round ends
         self.assertFalse(categories.player.is_playing, 'Player should no longer be playing')
         # correct error message plays
-        self.assertEqual(Translator.bad_guess_not_unique(1), categories.speech_text, 'Should get a bad guess '
+        self.assertEqual(translator.bad_guess_not_unique(1), categories.speech_text, 'Should get a bad guess '
                                                                                      'speech response')
 
 
